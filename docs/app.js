@@ -3,14 +3,53 @@ function init(SeletorFrase, seletorAutor, seletorBtn) {
     const autor = document.querySelector(seletorAutor);
     const btn = document.querySelector(seletorBtn);
     const body = document.querySelector('body');
-    const imgTopo = document.querySelector('img'); // Seleciona a imagem do topo
+    const imgTopo = document.getElementById('imagem-topo'); // Seleciona a imagem do topo pelo id
 
-    // Array de imagens (adicione os nomes dos arquivos das imagens que você quer usar)
+    // Array de imagens
     const imagens = [
         'images1.jpg',
         'images2.jpg',
-        'images3.jpg'
+        'images3.jpg',
+        'images4.jpg'
     ];
+
+    // Array para controlar imagens já exibidas
+    let imagensDisponiveis = [...imagens];
+
+    function getImagemNaoRepetida() {
+        if (imagensDisponiveis.length === 0) {
+            imagensDisponiveis = [...imagens];
+        }
+        const idx = Math.floor(Math.random() * imagensDisponiveis.length);
+        const img = imagensDisponiveis[idx];
+        imagensDisponiveis.splice(idx, 1); // Remove a imagem escolhida
+        return img;
+    }
+
+    // Controle para cores não se repetirem
+    let ultimaCor = null;
+    let coresDisponiveis = [];
+
+    async function carregarCores() {
+        try {
+            const colorsResponse = await fetch('./colors.json');
+            const colorsJSON = await colorsResponse.json();
+            coresDisponiveis = colorsJSON.map(c => c.color);
+        } catch (erro) {
+            console.log(erro);
+            coresDisponiveis = ["#ffffff"]; // fallback
+        }
+    }
+
+    function getCorNaoRepetida() {
+        if (coresDisponiveis.length === 0) return "#ffffff";
+        let cor;
+        do {
+            cor = coresDisponiveis[Math.floor(Math.random() * coresDisponiveis.length)];
+        } while (cor === ultimaCor && coresDisponiveis.length > 1);
+        ultimaCor = cor;
+        return cor;
+    }
 
     if (frase && autor && btn && imgTopo) {
         async function activeApp() {
@@ -23,29 +62,20 @@ function init(SeletorFrase, seletorAutor, seletorBtn) {
                 frase.innerText = aleatorio.quote;
                 autor.innerText = aleatorio.author;
 
-                // Troca a imagem do topo
-                const imgIndex = index % imagens.length;
-                imgTopo.src = imagens[imgIndex];
+                // Troca a imagem do topo sem repetir até esgotar as opções
+                imgTopo.src = getImagemNaoRepetida();
 
-                return gradientColor();
+                // Troca a cor de fundo sem repetir
+                body.style.background = getCorNaoRepetida();
             } catch (erro) {
                 console.log(erro);
             }
         }
 
-        async function gradientColor() {
-            try {
-                const colorsResponse = await fetch('./colors.json');
-                const colorsJSON = await colorsResponse.json();
-                const aleatorioColors = colorsJSON[Math.floor(Math.random() * 3)].color;
-                body.style.background = aleatorioColors;
-            } catch (erro) {
-                console.log(erro)
-            }
-        }
-
-        btn.addEventListener('click', activeApp);
-        activeApp();
+        carregarCores().then(() => {
+            btn.addEventListener('click', activeApp);
+            activeApp();
+        });
     }
 }
 init('.frase', '.autor', '.btn-novo');

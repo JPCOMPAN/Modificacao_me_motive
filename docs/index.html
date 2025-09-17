@@ -7,28 +7,29 @@
     <link rel="stylesheet" href="css/style.css">
     <title>Me conte uma piada! - Gerador de piadas super funny  </title>
     <style>
-        .imagem-topo {
-            width: 100%;
-            display: flex;
-            justify-content: center;
-            margin: 32px 0 16px 0;
-        }
+      .imagem-topo {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        margin: 32px 0 16px 0;
+    }
+    .imagem-topo img {
+        width: 240px;
+        height: 240px;
+        /* Remover o border-radius para ficar quadrado */
+        /* border-radius: 50%; */
+        border: 5px solid #fff;
+        box-shadow: 0 2px 16px rgba(0,0,0,0.12);
+        object-fit: cover;
+        background: #eee;
+        padding: 6px;
+    }
+    @media (max-width: 600px) {
         .imagem-topo img {
-            width: 140px;
-            height: 140px;
-            border-radius: 50%;
-            border: 5px solid #fff;
-            box-shadow: 0 2px 16px rgba(0,0,0,0.12);
-            object-fit: cover;
-            background: #eee;
-            padding: 6px;
+            width: 90px;
+            height: 90px;
         }
-        @media (max-width: 600px) {
-            .imagem-topo img {
-                width: 90px;
-                height: 90px;
-            }
-        }
+    }
     </style>
 </head>
 
