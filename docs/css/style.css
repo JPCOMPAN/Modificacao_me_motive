@@ -7,7 +7,7 @@
 }
 
 body {
-    background: linear-gradient(to right, #41295a, #2f0743);
+    background: linear-gradient(to right, #ff0000, #ff0000);
     /* overflow: hidden; */
 }
 
@@ -127,7 +127,7 @@ body {
     }
 
     .estrutura button {
-        padding: 18px 30px;
+        padding: 10px 30px;
     }
 
     .estrutura footer p {
