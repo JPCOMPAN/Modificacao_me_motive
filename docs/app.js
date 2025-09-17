@@ -10,7 +10,6 @@ function init(SeletorFrase, seletorAutor, seletorBtn) {
         'images1.jpg',
         'images2.jpg',
         'images3.jpg'
-        // Adicione mais nomes de arquivos conforme desejar
     ];
 
     if (frase && autor && btn && imgTopo) {
